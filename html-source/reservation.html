@@ -4,8 +4,13 @@
     <title>my nice page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no" />
     <meta http-equiv="content-type" content="text/html" charset="utf-8" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="style.css" type="text/css" /> -->
+
     <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker-bs5.min.css">
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
@@ -20,6 +25,15 @@
       }
       .room-img {
         max-width: 50%;
+      }
+
+      .redText {
+        color: red;
+      }
+
+      /* override styles here */
+      .notie-container {
+        box-shadow: none;
       }
     </style>
   </head>
@@ -64,38 +78,22 @@
 
     <div class="container">
 
-
-
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-          <!-- <h1>This will be the reservation page</h1> -->
           <h1 class="mt-5">Search for Availability</h1>
 
 
-          <form action="reservation.html" method="get">
-
-            <div class="row">
-
+          <form action="reservation.html" method="get" novalidate class="needs-validation">
+            <div id="reservation-dates" class="row">
               <div class="col">
-                <div class="mb-3">
-                  <label for="start_date" class="form-label">Starting Date</label>
-                  <input required type="date" class="form-control" id="start_date" name="start_date" aria-describedby="startDateHelp">
-                  <div id="startDateHelp" class="form-text">Enter your starting date.</div>
-                </div>
+                <input required class="form-control" type="text" name="start" placeholder="Arrival">
               </div>
-
               <div class="col">
-                <div class="mb-3">
-                  <label for="end_date" class="form-label">Ending Date</label>
-                  <input required type="date" class="form-control" id="end_date" name="end_date" aria-describedby="endDateHelp">
-                  <div id="endDateHelp" class="form-text">Enter your ending date.</div>
-                </div>
+                <input required class="form-control" type="text" name="end" placeholder="Departure">
               </div>
-
             </div>
-
-
+            <hr>
             <button type="submit" class="btn btn-primary">Seach Availability</button>
 
           </form>
@@ -103,18 +101,20 @@
 
 
 
+        </div>
+      </div>
 
-
-
-
-
-
+      <div class="row">
+        <div class="col">
+          <p id="myParagraph">This is some text</p>
+          <p>
+            <button id="colorButton" class="btn btn-outline-secondary">sweetalert2</button>
+            <button id="errButton" class="btn btn-outline-secondary">give me an error</button>
+          </p>
 
 
         </div>
       </div>
-
-
 
     </div>
 
@@ -137,6 +137,42 @@
 
     <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.min.js"
             crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/js/datepicker-full.min.js"></script>
+    <script src="https://unpkg.com/notie"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+
+      document.getElementById("colorButton").addEventListener("click", function() {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Do you want to continue',
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+      })
+
+      document.getElementById("errButton").addEventListener("click", function() {
+        notify("hello", "error")
+      })
+
+      const elem = document.getElementById('reservation-dates');
+      const rangepicker = new DateRangePicker(elem, {
+      format: "yyyy-mm-dd"
+      });
+
+
+      function notify(msg, msgType) {
+        notie.alert({
+          type: msgType,
+          text: msg,
+        })
+      }
+
+
     </script>
 
   </body>
