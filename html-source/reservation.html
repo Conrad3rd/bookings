@@ -145,18 +145,60 @@
 
 
     <script>
+      let attention = Prompt();
 
-      document.getElementById("colorButton").addEventListener("click", function() {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Do you want to continue',
-          icon: 'error',
-          confirmButtonText: 'Cool'
+      // validation
+      (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+          }, false)
         })
-      })
+      })()
+
+      // del
+      // document.getElementById("colorButton").addEventListener("click", function() {
+      //   Swal.fire({
+      //     title: 'Error!',
+      //     text: 'Do you want to continue',
+      //     icon: 'error',
+      //     confirmButtonText: 'Cool'
+      //   })
+      // })
 
       document.getElementById("errButton").addEventListener("click", function() {
-        notify("hello", "error")
+        let html = `
+        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation"
+          <div class="row">
+
+            <div class="row">
+              <div class="col">
+
+                <div class="col">
+                  <input required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                </div>
+                <div class="col">
+                  <input required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
+        `
+        attention.custom({msg: html});
       })
 
       const elem = document.getElementById('reservation-dates');
@@ -164,7 +206,7 @@
       format: "yyyy-mm-dd"
       });
 
-
+      // del
       function notify(msg, msgType) {
         notie.alert({
           type: msgType,
@@ -172,6 +214,108 @@
         })
       }
 
+      // del
+      function notifyModal(title, text, icon, confirmButtonText) {
+        Swal.fire({
+          title: title,
+          html: text,
+          icon: icon,
+          confirmButtonText: confirmButtonText
+        })
+      }
+
+      // Prompt is our JavaScript module for all alerts, notifications and popup dialogs
+      function Prompt() {
+
+        let toast = function(c) {
+          const {
+            msg = "",
+            icon = "success",
+            position = "top-end",
+
+          } = c;
+          const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({})
+
+        }
+
+        let success = function(c) {
+          const {
+            msg = "",
+            title = "",
+            footer = "",
+
+          } = c;
+          Swal.fire({
+            icon: 'success',
+            title: title,
+            text: msg,
+            footer: footer,
+          })
+        }
+
+        let error = function(c) {
+          const {
+            msg = "",
+            title = "",
+            footer = "",
+
+          } = c;
+          Swal.fire({
+            icon: 'error',
+            title: title,
+            text: msg,
+            footer: footer,
+          })
+        }
+
+        async function custom(c) {
+          const {
+            msg = "",
+            title = "",
+          } = c;
+
+          const { value: formValues } = await Swal.fire({
+            title: title,
+            html: msg,
+            backdrop: false,
+            showCancelButton: true,
+            showCloseButton: true,
+            focusConfirm: false,
+            preConfirm: () => {
+              return [
+                document.getElementById('start').value,
+                document.getElementById('end').value
+              ]
+            }
+          })
+
+          if (formValues) {
+            Swal.fire(JSON.stringify(formValues))
+          }
+        }
+
+        return {
+          toast: toast,
+          success: success,
+          error: error,
+          custom: custom,
+        }
+
+      }
 
     </script>
 
