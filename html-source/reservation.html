@@ -29,6 +29,7 @@
 
       .redText {
         color: red;
+        background-color: rgba(0, 0, 0, 0.695);
       }
 
       /* override styles here */
@@ -182,9 +183,6 @@
         <form id="check-availability-form" action="" method="post" novalidate class="needs-validation"
           <div class="row">
 
-            <div class="row">
-              <div class="col">
-
                 <div class="col">
                   <input required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
                 </div>
@@ -192,13 +190,10 @@
                   <input required class="form-control" type="text" name="end" id="end" placeholder="Departure">
                 </div>
 
-              </div>
-            </div>
-
           </div>
         </form>
         `
-        attention.custom({msg: html});
+        attention.custom({msg: html, title: "Choose your dates"});
       })
 
       const elem = document.getElementById('reservation-dates');
@@ -292,9 +287,16 @@
             title: title,
             html: msg,
             backdrop: false,
+            focusConfirm: false,
             showCancelButton: true,
             showCloseButton: true,
-            focusConfirm: false,
+            willOpen: () => {
+              const elem = document.getElementById('reservation-dates-modal');
+              const rp = new DateRangePicker(elem, {
+                format: 'yyyy-mm-dd',
+                showOnFocus: true,
+              })
+            },
             preConfirm: () => {
               return [
                 document.getElementById('start').value,
