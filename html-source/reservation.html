@@ -4,39 +4,17 @@
     <title>my nice page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no" />
     <meta http-equiv="content-type" content="text/html" charset="utf-8" />
-    <!-- <link rel="stylesheet" href="style.css" type="text/css" /> -->
-
     <link rel="icon" href="data:,">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker-bs5.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
           crossorigin="anonymous">
-    <style>
-      .my-footer {
-        background-color: #17345c;
-        margin: 25px 0px 0px 0px;
-        padding: 10px 0px 10px 0px;
-        color: white;
-        font-size: 90%;
-      }
-      .room-img {
-        max-width: 50%;
-      }
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
-      .redText {
-        color: red;
-        background-color: rgba(0, 0, 0, 0.695);
-      }
-
-      /* override styles here */
-      .notie-container {
-        box-shadow: none;
-      }
-    </style>
   </head>
 
   <body>
@@ -109,8 +87,7 @@
         <div class="col">
           <p id="myParagraph">This is some text</p>
           <p>
-            <button id="colorButton" class="btn btn-outline-secondary">sweetalert2</button>
-            <button id="errButton" class="btn btn-outline-secondary">give me an error</button>
+            <button id="colorButton" class="btn btn-outline-secondary">Click me</button>
           </p>
 
 
@@ -131,19 +108,18 @@
       </div>
     </div>
 
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous">
-    </script>
+        crossorigin="anonymous"></script>
 
     <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1/dist/es-module-shims.min.js"
-            crossorigin="anonymous">
-    </script>
+            crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/js/datepicker-full.min.js"></script>
     <script src="https://unpkg.com/notie"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
     <script>
       let attention = Prompt();
@@ -159,45 +135,56 @@
         Array.from(forms).forEach(form => {
           form.addEventListener('submit', event => {
             if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
+              event.preventDefault();
+              event.stopPropagation();
             }
 
-            form.classList.add('was-validated')
-          }, false)
-        })
-      })()
+            form.classList.add('was-validated');
+          }, false);
+        });
+      })();
 
-      // del
-      // document.getElementById("colorButton").addEventListener("click", function() {
-      //   Swal.fire({
-      //     title: 'Error!',
-      //     text: 'Do you want to continue',
-      //     icon: 'error',
-      //     confirmButtonText: 'Cool'
-      //   })
-      // })
-
-      document.getElementById("errButton").addEventListener("click", function() {
-        let html = `
-        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation"
-          <div class="row">
-
+      document.getElementById("colorButton").addEventListener("click", function () {
+        let html2 = `
+        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+            <div class="form-row">
                 <div class="col">
-                  <input required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
-                </div>
-                <div class="col">
-                  <input required class="form-control" type="text" name="end" id="end" placeholder="Departure">
-                </div>
+                    <div class="form-row" id="reservation-dates-modal">
+                        <div class="col">
+                            <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                        </div>
+                        <div class="col">
+                            <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                        </div>
 
-          </div>
+                    </div>
+                </div>
+            </div>
         </form>
-        `
-        attention.custom({msg: html, title: "Choose your dates"});
+        `;
+
+        let html = `
+          <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+            <div class="d-flex flex-row justify-content-evenly" id="reservation-dates-modal">
+              <div class="p-2">
+                <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+              </div>
+
+              <div class="p-2">
+                <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+              </div>
+            </div>
+          </form>
+        `;
+
+        attention.custom({
+          title: "Choose your dates",
+          msg: html,
+        });
       })
 
       const elem = document.getElementById('reservation-dates');
-      const rangepicker = new DateRangePicker(elem, {
+      const rangePicker = new DateRangePicker(elem, {
       format: "yyyy-mm-dd"
       });
 
@@ -276,7 +263,6 @@
             footer: footer,
           })
         }
-
         async function custom(c) {
           const {
             msg = "",
@@ -289,13 +275,18 @@
             backdrop: false,
             focusConfirm: false,
             showCancelButton: true,
-            showCloseButton: true,
+
             willOpen: () => {
-              const elem = document.getElementById('reservation-dates-modal');
-              const rp = new DateRangePicker(elem, {
-                format: 'yyyy-mm-dd',
-                showOnFocus: true,
-              })
+                    const elem = document.getElementById("reservation-dates-modal");
+                    const rp = new DateRangePicker(elem, {
+                        format: 'yyyy-mm-dd',
+                        showOnFocus: true,
+                        orientation: 'auto top',
+                    })
+                },
+            didOpen: () => {
+              document.getElementById("start").removeAttribute("disabled");
+              document.getElementById("end").removeAttribute("disabled");
             },
             preConfirm: () => {
               return [
