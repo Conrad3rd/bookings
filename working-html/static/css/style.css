@@ -1,0 +1,24 @@
+.my-footer {
+  background-color: #17345c;
+  margin: 25px 0px 0px 0px;
+  padding: 10px 0px 10px 0px;
+  color: white;
+  font-size: 90%;
+}
+.room-img {
+  max-width: 50%;
+}
+
+.redText {
+  color: red;
+  background-color: rgba(0, 0, 0, 0.695);
+}
+
+/* override styles here */
+.notie-container {
+  box-shadow: none;
+}
+
+.datepicker-picker {
+  z-index: 10000;
+}
