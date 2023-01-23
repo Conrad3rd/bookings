@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/conrad3rd/bookings/pkg/config"
-	"github.com/conrad3rd/bookings/pkg/models"
-	"github.com/conrad3rd/bookings/pkg/render"
+	"github.com/conrad3rd/bookings/internal/config"
+	"github.com/conrad3rd/bookings/internal/models"
+	"github.com/conrad3rd/bookings/internal/render"
 )
 
 // Repo the repository used by th handlers
@@ -98,7 +98,7 @@ func (m *Reposetory) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(string(out)
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
 }

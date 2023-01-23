@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/conrad3rd/bookings/pkg/config"
-	"github.com/conrad3rd/bookings/pkg/handlers"
-	"github.com/conrad3rd/bookings/pkg/render"
 	"github.com/alexedwards/scs/v2"
+	"github.com/conrad3rd/bookings/internal/config"
+	"github.com/conrad3rd/bookings/internal/handlers"
+	"github.com/conrad3rd/bookings/internal/render"
 )
 
 const portNumber = ":8080"
