@@ -1,5 +1,7 @@
 package models
 
+import "github.com/conrad3rd/bookings/internal/forms"
+
 // TemplateDate holds date send from handlers to templates
 type TemplateData struct {
 	StringMap map[string]string
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash     string
 	Warning   string
 	Error     string
+	Form      *forms.Form
 }

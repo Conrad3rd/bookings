@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/conrad3rd/bookings/internal/config"
+	"github.com/conrad3rd/bookings/internal/forms"
 	"github.com/conrad3rd/bookings/internal/models"
 	"github.com/conrad3rd/bookings/internal/render"
 )
@@ -56,6 +57,13 @@ func (m *Reposetory) About(w http.ResponseWriter, r *http.Request) {
 
 // Reservation renders the make-reservation page and displays from
 func (m *Reposetory) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
+
+// PostReservation handles the posting of a reservation form
+func (m *Reposetory) PostReservation(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
 }
 
