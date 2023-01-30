@@ -1,0 +1,10 @@
+mode: set
+github.com/conrad3rd/bookings/cmd/web/main.go:23.13,25.16 2 0
+github.com/conrad3rd/bookings/cmd/web/main.go:29.2,36.16 4 0
+github.com/conrad3rd/bookings/cmd/web/main.go:25.16,27.3 1 0
+github.com/conrad3rd/bookings/cmd/web/main.go:39.18,55.16 10 1
+github.com/conrad3rd/bookings/cmd/web/main.go:60.2,67.12 6 1
+github.com/conrad3rd/bookings/cmd/web/main.go:55.16,58.3 2 0
+github.com/conrad3rd/bookings/cmd/web/middleware.go:10.45,20.2 3 1
+github.com/conrad3rd/bookings/cmd/web/middleware.go:23.50,25.2 1 1
+github.com/conrad3rd/bookings/cmd/web/routes.go:12.49,38.2 18 1
