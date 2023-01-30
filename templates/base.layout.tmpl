@@ -111,7 +111,6 @@
         });
       })();
 
-      // del
       function notify(msg, msgType) {
         notie.alert({
           type: msgType,
@@ -119,7 +118,6 @@
         })
       }
 
-      // del
       function notifyModal(title, text, icon, confirmButtonText) {
         Swal.fire({
           title: title,
@@ -128,6 +126,18 @@
           confirmButtonText: confirmButtonText
         })
       }
+
+      {{with .Error}}
+      notify("{{.}}", "error")
+      {{end}}
+
+      {{with .Flash}}
+      notify("{{.}}", "success")
+      {{end}}
+
+      {{with .Warning}}
+      notify("{{.}}", "warning")
+      {{end}}
 
       // Prompt is our JavaScript module for all alerts, notifications and popup dialogs
       function Prompt() {
