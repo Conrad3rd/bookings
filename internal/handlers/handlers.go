@@ -3,11 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/conrad3rd/bookings/internal/config"
 	"github.com/conrad3rd/bookings/internal/forms"
+	"github.com/conrad3rd/bookings/internal/helpers"
 	"github.com/conrad3rd/bookings/internal/models"
 	"github.com/conrad3rd/bookings/internal/render"
 )
@@ -34,25 +34,13 @@ func NewHandlers(r *Reposetory) {
 
 // Home is the home page handler
 func (m *Reposetory) Home(w http.ResponseWriter, r *http.Request) {
-	remoteIP := r.RemoteAddr
-	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
-
 	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the about page handler
 func (m *Reposetory) About(w http.ResponseWriter, r *http.Request) {
-	// perform some logic
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello, again"
-
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-	stringMap["remote_ip"] = remoteIP
-
 	// send the data to the template
-	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
-	})
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{})
 }
 
 // Reservation renders the make-reservation page and displays from
@@ -71,7 +59,8 @@ func (m *Reposetory) Reservation(w http.ResponseWriter, r *http.Request) {
 func (m *Reposetory) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -103,6 +92,7 @@ func (m *Reposetory) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
+
 // Generals renders the room page
 func (m *Reposetory) Generals(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
@@ -140,7 +130,8 @@ func (m *Reposetory) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
+		helpers.ServerError(w, err)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -155,13 +146,14 @@ func (m *Reposetory) Contact(w http.ResponseWriter, r *http.Request) {
 func (m *Reposetory) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("cannot get item from session")
+		// log.Println("cannot get item from session")
+		m.App.ErrorLog.Println("can't get error from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 
-	m.App.Session.Remove(r.Context(),"reservation")
+	m.App.Session.Remove(r.Context(), "reservation")
 
 	data := make(map[string]interface{})
 	data["reservation"] = reservation
