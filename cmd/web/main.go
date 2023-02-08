@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/conrad3rd/bookings/internal/config"
 	"github.com/conrad3rd/bookings/internal/handlers"
+	"github.com/conrad3rd/bookings/internal/helpers"
 	"github.com/conrad3rd/bookings/internal/models"
 	"github.com/conrad3rd/bookings/internal/render"
 )
@@ -18,6 +20,8 @@ const portNumber = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 // main is the main application function
 func main() {
@@ -43,6 +47,12 @@ func run() error {
 	// change this to true when in productin
 	app.InProduction = false
 
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -63,6 +73,7 @@ func run() error {
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
-	
+	helpers.NewHelpers(&app)
+
 	return nil
 }
