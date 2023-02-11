@@ -6,10 +6,13 @@ import (
 	"net/http"
 
 	"github.com/conrad3rd/bookings/internal/config"
+	"github.com/conrad3rd/bookings/internal/driver"
 	"github.com/conrad3rd/bookings/internal/forms"
 	"github.com/conrad3rd/bookings/internal/helpers"
 	"github.com/conrad3rd/bookings/internal/models"
 	"github.com/conrad3rd/bookings/internal/render"
+	"github.com/conrad3rd/bookings/internal/reposetory"
+	"github.com/conrad3rd/bookings/internal/reposetory/dbrepo"
 )
 
 // Repo the repository used by th handlers
@@ -18,12 +21,14 @@ var Repo *Reposetory
 // Reposetory is the repository type
 type Reposetory struct {
 	App *config.AppConfig
+	DB  reposetory.DatabaseRepo
 }
 
 // NewRepo creates a new repository
-func NewRepo(a *config.AppConfig) *Reposetory {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Reposetory {
 	return &Reposetory{
 		App: a,
+		DB:  dbrepo.NewPostgresRepo(db.SQL, a),
 	}
 }
 
