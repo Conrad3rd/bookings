@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/conrad3rd/bookings/internal/config"
-	"github.com/conrad3rd/bookings/internal/reposetory"
+	"github.com/conrad3rd/bookings/internal/repository"
 )
 
 type postgresDBRepo struct {
@@ -12,7 +12,7 @@ type postgresDBRepo struct {
 	DB  *sql.DB
 }
 
-func NewPostgresRepo(conn *sql.DB, a *config.AppConfig) reposetory.DatabaseRepo {
+func NewPostgresRepo(conn *sql.DB, a *config.AppConfig) repository.DatabaseRepo {
 	return &postgresDBRepo{
 		App: a,
 		DB:  conn,
