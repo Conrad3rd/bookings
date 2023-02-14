@@ -6,5 +6,5 @@ type DatabaseRepo interface {
 	AllUser() bool
 
 	InsertReservation(res models.Reservation) (int, error)
-	InsertRoomRestriction(r models.Restriction) error
+	InsertRoomRestriction(r models.RoomRestriction) error
 }
