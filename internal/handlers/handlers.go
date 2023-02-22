@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -215,15 +216,38 @@ type jsonResponse struct {
 
 // AvailabilityJSON handles request for availability and send JSON response
 func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	sd := r.Form.Get("start")
+	ed := r.Form.Get("end")
+
+	layout := "2006-01-02"
+	startDate, err := time.Parse(layout, sd)
+	if err != nil {
+		log.Println(err)
+	}
+	endDate, err := time.Parse(layout, ed)
+	if err != nil {
+		log.Println(err)
+	}
+
+	roomId, err := strconv.Atoi(r.Form.Get("room_id"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	available, err := m.DB.SearchAvailabilityByDatesByRoomID(startDate, endDate, roomId)
+	if err != nil {
+		log.Println(err)
+	}
 	resp := jsonResponse{
-		OK:      false,
-		Message: "Available!",
+		OK:      available,
+		Message: "",
 	}
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
 		// log.Println(err)
 		helpers.ServerError(w, err)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
