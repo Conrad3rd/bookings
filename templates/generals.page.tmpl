@@ -90,9 +90,19 @@
           .then(response => response.json())
           .then(data => {
             if (data.ok) {
-              console.log("room is available");
+              attention.custom({
+                icon: 'success',
+                showConfirmButton: false,
+
+                msg: '<p>Room is available!</p>'
+                   + '<p><a href="#!" class="btn btn-primary">'
+                   + 'Book now'
+                   + '</a></p>'
+              })
             } else {
-              console.log("room is Not available");
+              attention.error({
+                msg: "Room is not available"
+              })
             }
           })
       },
