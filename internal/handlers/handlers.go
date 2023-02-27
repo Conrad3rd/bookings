@@ -312,3 +312,12 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/make-reservation", http.StatusSeeOther)
 }
+
+
+func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
+	// id, s, e
+	ID, _ := strconv.Atoi(r.URL.Query().Get("id"))
+	startDate := r.URL.Query().Get("s")
+	endDate := r.URL.Query().Get("e")
+	log.Println(ID, startDate, endDate)
+}
