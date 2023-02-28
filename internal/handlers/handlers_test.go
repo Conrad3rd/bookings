@@ -323,16 +323,11 @@ func TestRepository_AvailabilityJSON(t *testing.T) {
 	var j jsonResponse
 
 	// should use rr.Body.Bytes() instead of []byte(rr.Body.String()) (S1030)go-staticcheck
-	// err := json.Unmarshal(rr.Body.Bytes(), &j)
-	err := json.Unmarshal([]byte(rr.Body.String()), &j)
+	err := json.Unmarshal(rr.Body.Bytes(), &j)
+	// err := json.Unmarshal([]byte(rr.Body.String()), &j)
 	if err != nil {
 		t.Error("failed to parse json")
 	}
-
-	// if rr.Code != http.StatusSeeOther {
-	// 	t.Errorf("PostReservation handler returned wrong response code: got %d, wanted %d", rr.Code, http.StatusSeeOther)
-	// }
-
 }
 
 func getCtx(req *http.Request) context.Context {
