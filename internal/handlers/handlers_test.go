@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -292,6 +293,46 @@ func TestRepository_PostReservation(t *testing.T) {
 	if rr.Code != http.StatusTemporaryRedirect {
 		t.Errorf("PostReservation handler faild when trying when trying to fail inserting reservation: got %d, wanted %d", rr.Code, http.StatusTemporaryRedirect)
 	}
+}
+
+func TestRepository_AvailabilityJSON(t *testing.T) {
+	// first case - rooms are not available
+	reqBody := "2050-01-01"
+	reqBody = fmt.Sprintf("%s&%s", reqBody, "end_date=2050-01-02")
+	reqBody = fmt.Sprintf("%s&%s", reqBody, "room_id=1")
+
+	// create request
+	req, _ := http.NewRequest("POST", "/search-availability-json", strings.NewReader(reqBody))
+
+	// get context with session
+	ctx := getCtx(req)
+	req = req.WithContext(ctx)
+
+	// set the request header
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	// make handler func
+	handler := http.HandlerFunc(Repo.AvailabilityJSON)
+
+	// get response recorder
+	rr := httptest.NewRecorder()
+
+	// make request to our handler
+	handler.ServeHTTP(rr, req)
+
+	var j jsonResponse
+
+	// should use rr.Body.Bytes() instead of []byte(rr.Body.String()) (S1030)go-staticcheck
+	// err := json.Unmarshal(rr.Body.Bytes(), &j)
+	err := json.Unmarshal([]byte(rr.Body.String()), &j)
+	if err != nil {
+		t.Error("failed to parse json")
+	}
+
+	// if rr.Code != http.StatusSeeOther {
+	// 	t.Errorf("PostReservation handler returned wrong response code: got %d, wanted %d", rr.Code, http.StatusSeeOther)
+	// }
+
 }
 
 func getCtx(req *http.Request) context.Context {

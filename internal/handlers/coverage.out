@@ -38,11 +38,11 @@ github.com/conrad3rd/bookings/internal/handlers/handlers.go:231.16,235.3 3 0
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:237.2,237.21 1 0
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:237.21,242.3 3 0
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:244.2,256.4 5 0
-github.com/conrad3rd/bookings/internal/handlers/handlers.go:268.79,271.16 2 0
+github.com/conrad3rd/bookings/internal/handlers/handlers.go:268.79,271.16 2 1
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:271.16,282.3 5 0
-github.com/conrad3rd/bookings/internal/handlers/handlers.go:284.2,294.16 8 0
+github.com/conrad3rd/bookings/internal/handlers/handlers.go:284.2,294.16 8 1
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:294.16,305.3 5 0
-github.com/conrad3rd/bookings/internal/handlers/handlers.go:306.2,319.14 4 0
+github.com/conrad3rd/bookings/internal/handlers/handlers.go:306.2,319.14 4 1
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:324.70,326.2 1 1
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:329.81,331.9 2 0
 github.com/conrad3rd/bookings/internal/handlers/handlers.go:331.9,335.3 3 0
