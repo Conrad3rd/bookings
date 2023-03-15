@@ -7,9 +7,11 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
 
+	"github.com/conrad3rd/bookings/internal/driver"
 	"github.com/conrad3rd/bookings/internal/models"
 )
 
@@ -50,7 +52,6 @@ var theTests = []struct {
 
 func TestHandlers(t *testing.T) {
 	routes := getRoutes()
-
 	ts := httptest.NewTLSServer(routes)
 	defer ts.Close()
 
@@ -63,7 +64,6 @@ func TestHandlers(t *testing.T) {
 		if resp.StatusCode != e.expectedStatusCode {
 			t.Errorf("for %s, expected %d but got %d", e.name, e.expectedStatusCode, resp.StatusCode)
 		}
-
 	}
 }
 
@@ -295,6 +295,15 @@ func TestRepository_PostReservation(t *testing.T) {
 	}
 }
 
+func TestNewRepo(t *testing.T) {
+	var db driver.DB
+	testRepo := NewRepo(&app, &db)
+
+	if reflect.TypeOf(testRepo).String() != "*handlers.Repository" {
+		t.Errorf("Did not get correct type from NewRepo: got %s, wanted *Repository", reflect.TypeOf(testRepo).String())
+	}
+}
+
 func TestRepository_AvailabilityJSON(t *testing.T) {
 	/*****************************************
 	// first case -- rooms are not available
@@ -369,7 +378,7 @@ func TestRepository_AvailabilityJSON(t *testing.T) {
 		t.Error("Got no availability when some was expected in AvailabilityJSON")
 	}
 
-/*****************************************
+	/*****************************************
 	// third case -- no request body
 	*****************************************/
 	// create our request
@@ -403,7 +412,7 @@ func TestRepository_AvailabilityJSON(t *testing.T) {
 		t.Error("Got availability when request body was empty")
 	}
 
-/*****************************************
+	/*****************************************
 	// fourth case -- database error
 	*****************************************/
 	// create our request body
