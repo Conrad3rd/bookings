@@ -187,10 +187,27 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		Dear %s, <br>
 		This is confirm your reservation from %s to %s
 	`, reservation.FirstName, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
+
 	msg := models.MailData{
-		To:      reservation.Email,
+		To:       reservation.Email,
+		From:     "me@here.com",
+		Subject:  "Test subject Reservation Confirmation",
+		Content:  htmlMessage,
+		Template: "basic.html",
+	}
+
+	m.App.MailChan <- msg
+
+	// send notification to propery owner
+	htmlMessage = fmt.Sprintf(`
+		<strong>Reservation Notification</strong><br>
+		A reservation has been made for %s from %s to %s.
+	`, reservation.Room.RoomName, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
+
+	msg = models.MailData{
+		To:      "me@here.com",
 		From:    "me@here.com",
-		Subject: "Test subject Reservation Confirmation",
+		Subject: "Reservation Notification",
 		Content: htmlMessage,
 	}
 
