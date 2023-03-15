@@ -10,8 +10,8 @@ import (
 func TestForm_Valid(t *testing.T) {
 	r := httptest.NewRequest("POST", "/whatever", nil)
 	form := New(r.PostForm)
-	isValid := form.Valid()
 
+	isValid := form.Valid()
 	if !isValid {
 		t.Error("get invalid when should have been valid")
 	}
