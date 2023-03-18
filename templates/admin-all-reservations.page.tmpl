@@ -20,9 +20,7 @@
           <th>Arrival</th>
           <th>Departure</th>
           <th>Created</th>
-          <th>Created</th>
-          <th>Created</th>
-          <th>Created</th>
+          <th>Updated</th>
         </tr>
       </thead>
       <tbody>
@@ -31,12 +29,10 @@
             <td>{{.ID}}</td>
             <td>{{.LastName}}</td>
             <td>{{.Room.RoomName}}</td>
-            <td>{{.StartDate}}</td>
-            <td>{{.EndDate}}</td>
-            <td>{{.CreatedAt}}</td>
-            <td>{{.CreatedAt}}</td>
-            <td>{{.CreatedAt}}</td>
-            <td>{{.CreatedAt}}</td>
+            <td>{{humanDate .StartDate}}</td>
+            <td>{{humanDate .EndDate}}</td>
+            <td>{{humanDate .CreatedAt}}</td>
+            <td>{{humanDate .UpdatedAt}}</td>
           </tr>
         {{end}}
       </tbody>
