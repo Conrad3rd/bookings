@@ -471,6 +471,7 @@ func (m *postgresDBRepo) AllRooms() ([]models.Room, error) {
 	return rooms, nil
 }
 
+// GetRestrictionsForRoomByDate returns restrictions for a room by date range
 func (m *postgresDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end time.Time) ([]models.RoomRestriction, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -506,5 +507,10 @@ func (m *postgresDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end tim
 
 		restrictions = append(restrictions, r)
 	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return restrictions, nil
 
 }
