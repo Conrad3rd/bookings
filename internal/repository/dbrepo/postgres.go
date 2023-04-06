@@ -426,10 +426,11 @@ func (m *postgresDBRepo) UpdateProcessedForReservation(id, processed int) error 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	query := "update from reservations set processed = $1 where id = $2"
+	query := "update reservations set processed = $1 where id = $2"
 
 	_, err := m.DB.ExecContext(ctx, query, processed, id)
 	if err != nil {
+		log.Println("error in UpdateProcessedForReservation")
 		return err
 	}
 	return nil
@@ -526,7 +527,7 @@ func (m *postgresDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
 
 	_, err := m.DB.ExecContext(ctx, query, startDate, startDate.AddDate(0, 0, 1), id, 2, time.Now(), time.Now())
 	if err != nil {
-		log.Println(err)
+		log.Println("sd43b", err)
 		return err
 	}
 	return nil
