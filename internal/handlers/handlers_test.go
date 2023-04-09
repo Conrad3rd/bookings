@@ -796,7 +796,7 @@ var loginTests = []struct {
 }{
 	{
 		"valid-credentials",
-		"me@here.com",
+		"me@here.ca",
 		http.StatusSeeOther,
 		"",
 		"/",
@@ -816,12 +816,24 @@ func TestLogin(t *testing.T) {
 		req = req.WithContext(ctx)
 
 		// set the header
-		req.Header.Set("Content-Type", "application/x-www-form-urlencoder")
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		rr := httptest.NewRecorder()
 
 		// call the handler
 		handler := http.HandlerFunc(Repo.PostShowLogin)
 		handler.ServeHTTP(rr, req)
+
+		if rr.Code != e.expectedStatusCode {
+			t.Errorf("failed %s: expected code %d, but got %d", e.name, e.expectedStatusCode, rr.Code)
+		}
+
+		if e.expectedLocation != "" {
+			// get the URL from test
+			actualLoc, _ := rr.Result().Location()
+			if actualLoc.String() != e.expectedLocation {
+				t.Errorf("failed %s: expected location %s, but got location %s", e.name, e.expectedLocation, actualLoc.String())
+			}
+		}
 	}
 
 }

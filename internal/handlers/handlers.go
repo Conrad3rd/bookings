@@ -466,7 +466,7 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 	if err != nil {
-		log.Println("ac73", err)
+		log.Println("errorcode:ac73", err)
 	}
 
 	email := r.Form.Get("email")
