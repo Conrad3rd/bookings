@@ -801,6 +801,21 @@ var loginTests = []struct {
 		"",
 		"/",
 	},
+	{
+		"invalid-credentials",
+		"jack@nimble.com",
+		http.StatusSeeOther,
+		"",
+		"/user/login",
+
+	},
+	{
+		"invalid-data",
+		"j",
+		http.StatusOK,
+		`action="/user/login"`,
+		"",
+	},
 }
 
 func TestLogin(t *testing.T) {
