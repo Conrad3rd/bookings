@@ -41,6 +41,7 @@ func main() {
 	// fmt.Println(fmt.Sprintf("Starting application on port #{portNumber}"))
 	fmt.Printf("Starting application on port %s\n", portNumber)
 	fmt.Printf("http://localhost%s\n", portNumber)
+	fmt.Println("https://8080-cs-c5c19ffc-845d-4f07-80c6-86e757b33d3f.cs-europe-west4-fycr.cloudshell.dev/")
 
 	srv := &http.Server{
 		Addr:    portNumber,
